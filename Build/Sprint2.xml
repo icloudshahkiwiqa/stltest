@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="MTN - Sprint 1" verbose="10">
+<!-- <parameter name="selenium.host" value="127.0.0.1" /> 
+<parameter name="selenium.port" value="4444" /> -->
+<!-- <parameter name="browserstack.browser" value="chrome" /> -->
+<!--  Report  listener  -->
+<listeners>
+	<listener class-name="com.STL.Utility.CustomDetailReporter" />
+	<listener class-name="com.STL.Utility.CustomReporterBuildSummary" />
+	<listener class-name="com.STL.Utility.CustomReporter" />
+	<listener class-name="com.STL.Reports.ExtentReportListener" />
+</listeners>
+
+	<test name="Sprint2_TC-01 :: Order a plan from Filtered List with chargeable number">
+		<classes>
+			<class name="com.MTN.Login.LoginIndex">
+				<methods>
+					<include name="resetPwdLnkBestSellingSubscriptionDetail">
+					</include>
+				</methods>
+			</class>
+		</classes>
+	</test>
+</suite>

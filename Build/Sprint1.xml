@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="MTN - Sprint 1" verbose="10">
+<!-- <parameter name="selenium.host" value="127.0.0.1" /> 
+<parameter name="selenium.port" value="4444" /> -->
+<!-- <parameter name="browserstack.browser" value="chrome" /> -->
+<!--  Report  listener  -->
+<listeners>
+	<listener class-name="com.STL.Utility.CustomDetailReporter" />
+	<listener class-name="com.STL.Utility.CustomReporterBuildSummary" />
+	<listener class-name="com.STL.Utility.CustomReporter" />
+	<listener class-name="com.STL.Reports.ExtentReportListener" />
+</listeners>
+
+<!-- 	<test name="Sprint1_TC-01 :: Order a plan from the Plan list">
+		<classes>
+			<class name="com.MTN.Explore.ExploreIndex">
+				<methods>
+					<include name="guestUserPurchasePlan">
+					</include>
+				</methods>
+			</class>
+		</classes>
+	</test> -->
+
+	<test name="Sprint1_TC-02 :: Order a plan from the Search result">
+		<classes>
+			<class name="com.MTN.Search.SearchIndex">
+				<methods>
+					<include name="searchPlan">
+					</include>
+				</methods>
+			</class>
+		</classes>
+	</test>
+
+<!-- 	<test name="Sprint1_TC-03 :: Order a plan from Category > Sub Category">
+		<classes>
+			<class name="com.MTN.Category.CategoryIndex">
+				<methods>
+					<include name="purchasePlanFromCategory">
+					</include>
+				</methods>
+			</class>
+		</classes>
+	</test> -->
+</suite>
