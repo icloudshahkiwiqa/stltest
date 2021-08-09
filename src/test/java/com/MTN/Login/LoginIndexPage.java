@@ -77,6 +77,20 @@ public class LoginIndexPage extends AbstractPage {
 		clickOnDashboard();
 	}
 
+	@FindBy(xpath="//li//img[contains(@src,'My Account')]/parent::div")
+	WebElement myAccountLbl;
+
+	public void clickOnMyAccount() {
+		Common.clickableElement(myAccountLbl, driver);
+		Common.clickOn(driver, myAccountLbl);
+	}
+
+	public void goToMyAccount() {
+		log("Go to Username > My Account.");
+		clickUsernameOnHeader();
+		clickOnMyAccount();
+	}
+
 	@FindBy(xpath="//label[contains(@class,'forgot-password')]")
 	WebElement forgotPasswordLnk;
 

@@ -12,11 +12,22 @@
 	<listener class-name="com.STL.Reports.ExtentReportListener" />
 </listeners>
 
-	<test name="Sprint2_TC-01 :: Order a plan from Filtered List with chargeable number">
+<!-- 	<test name="Sprint2_TC-01 :: Order a plan from Filtered List with chargeable number">
 		<classes>
 			<class name="com.MTN.Login.LoginIndex">
 				<methods>
 					<include name="resetPwdLnkBestSellingSubscriptionDetail">
+					</include>
+				</methods>
+			</class>
+		</classes>
+	</test> -->
+
+	<test name="Sprint2_TC-04 :: account">
+		<classes>
+			<class name="com.MTN.Account.AccountIndex">
+				<methods>
+					<include name="goToMyAccount">
 					</include>
 				</methods>
 			</class>

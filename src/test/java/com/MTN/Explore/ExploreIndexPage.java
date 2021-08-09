@@ -181,7 +181,7 @@ public class ExploreIndexPage extends AbstractPage{
 	WebElement explorePlansArrow;
 
 	public ExploreVerification clickOnExplorePlans() {
-		log("Click on 'Explore our plans' button.");
+		log("Click on Explore our plans button.");
 		Common.scrollToMiddle(driver, explorePlansArrow);
 		Common.clickableElement(explorePlansArrow, driver);
 		Common.captureScreenshot(driver);

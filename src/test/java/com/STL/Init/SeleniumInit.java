@@ -35,6 +35,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 
+import com.MTN.Account.AccountIndexPage;
+import com.MTN.Account.AccountVerification;
 import com.MTN.Category.CategoryIndexPage;
 import com.MTN.Category.CategoryVerification;
 import com.MTN.Common.CommonIndexPage;
@@ -95,6 +97,9 @@ public class SeleniumInit{
 
     protected LoginIndexPage loginIndexPage;
     protected LoginVerification loginVerification;
+
+    protected AccountIndexPage accountIndexPage;
+    protected AccountVerification accountVerification;
 
     @BeforeSuite(alwaysRun = true)
     public void fetchSuite(ITestContext testContext) throws IOException {
@@ -232,6 +237,7 @@ public class SeleniumInit{
 				Map<String, Object> prefs = new HashMap<String, Object>();
 				prefs.put("download.default_directory", new File("DownloadData").getAbsolutePath());
 				chromeOptions.setExperimentalOption("prefs", prefs);
+				chromeOptions.setBinary("C:\\Users\\User\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe");
 				capability.setBrowserName("chrome");
 				capability.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
 				capability.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
@@ -329,6 +335,9 @@ public class SeleniumInit{
 
 		loginIndexPage = new LoginIndexPage(driver);
 		loginVerification = new LoginVerification(driver);
+
+		accountIndexPage = new AccountIndexPage(driver);
+		accountVerification = new AccountVerification(driver);
 	}
 	/**
 	 * After Method

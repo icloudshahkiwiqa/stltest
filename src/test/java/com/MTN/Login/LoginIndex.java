@@ -137,7 +137,7 @@ public class LoginIndex extends SeleniumInit {
 		String plan = planDetails.get(1);
 		String iccID = planDetails.get(3);
 */
-		loginIndexPage.selectBestSellingPlan("Prestigue");
+		loginIndexPage.selectBestSellingPlan("NEW_Silver2021");
 
 		commonIndexPage.buyPlan();
 /*
