@@ -25,7 +25,7 @@ public class SearchIndex extends SeleniumInit{
 		String firstName = "fname"+Common.generateRandomChars(4);
 		String middleName = "mname"+Common.generateRandomChars(4);
 		String lastName = "lname"+Common.generateRandomChars(4);
-		String languageToExecute= TestData.getCellValue("ReadDataFromExcel/MTN.xlsx", "URL", 1, 1);
+		String languageToExecute= TestData.getCellValue("data/MTN_Details.xlsx", "URL", 1, 1);
 		if(languageToExecute.equalsIgnoreCase("Arabic") || languageToExecute.contentEquals("عربى")) {
 			firstName = "محمد";
 			middleName = "سلمان";
@@ -36,37 +36,37 @@ public class SearchIndex extends SeleniumInit{
 		String altContactNum = Common.generateRandomNumber(10);
 		String altEmail = "testAlt"+Common.generateRandomNumber(4)+"@yopmail.com";
 
-		TestData.setCellData("ReadDataFromExcel/MTN_Random.xlsx", "Registration", firstName, 1, 1);
-		TestData.setCellData("ReadDataFromExcel/MTN_Random.xlsx", "Registration", middleName, 2, 1);
-		TestData.setCellData("ReadDataFromExcel/MTN_Random.xlsx", "Registration", lastName, 3, 1);
-		TestData.setCellData("ReadDataFromExcel/MTN_Random.xlsx", "Registration", username, 4, 1);
-		TestData.setCellData("ReadDataFromExcel/MTN_Random.xlsx", "Registration", dob, 5, 1);
-		TestData.setCellData("ReadDataFromExcel/MTN_Random.xlsx", "Registration", altContactNum, 6, 1);
-		TestData.setCellData("ReadDataFromExcel/MTN_Random.xlsx", "Registration", altEmail, 7, 1);
+		TestData.setCellData("data/MTN_RuntimeDetails.xlsx", "Registration", firstName, 1, 1);
+		TestData.setCellData("data/MTN_RuntimeDetails.xlsx", "Registration", middleName, 2, 1);
+		TestData.setCellData("data/MTN_RuntimeDetails.xlsx", "Registration", lastName, 3, 1);
+		TestData.setCellData("data/MTN_RuntimeDetails.xlsx", "Registration", username, 4, 1);
+		TestData.setCellData("data/MTN_RuntimeDetails.xlsx", "Registration", dob, 5, 1);
+		TestData.setCellData("data/MTN_RuntimeDetails.xlsx", "Registration", altContactNum, 6, 1);
+		TestData.setCellData("data/MTN_RuntimeDetails.xlsx", "Registration", altEmail, 7, 1);
 
-		ArrayList<String> regDetails = TestData.getColumnData("ReadDataFromExcel/MTN_Random.xlsx", "Registration", "TestData");
-		firstName = regDetails.get(0);
-		middleName = regDetails.get(1);
-		lastName = regDetails.get(2);
-		username = regDetails.get(3);
-		dob = regDetails.get(4);
-		altContactNum = regDetails.get(5);
-		altEmail = regDetails.get(6);
+//		ArrayList<String> regDetails = TestData.getColumnData("data/MTN_RuntimeDetails.xlsx", "Registration", "TestData");
+//		firstName = regDetails.get(0);
+//		middleName = regDetails.get(1);
+//		lastName = regDetails.get(2);
+//		username = regDetails.get(3);
+//		dob = regDetails.get(4);
+//		altContactNum = regDetails.get(5);
+//		altEmail = regDetails.get(6);
 
-		ArrayList<String> regMandatoryDetails = TestData.getColumnData("ReadDataFromExcel/MTN.xlsx", "Registration", "TestData");
+		ArrayList<String> regMandatoryDetails = TestData.getColumnData("data/MTN_Details.xlsx", "Registration", "TestData");
 		String password = regMandatoryDetails.get(0);
 		String otp = regMandatoryDetails.get(1);
 		String gender = regMandatoryDetails.get(2);
 		String prefLang = regMandatoryDetails.get(3);
 		String receiveCommunication = regMandatoryDetails.get(4);
 
-		exploreIndexPage.enterAllDetailsForRegistration(firstName, middleName, lastName, username, password, otp, receiveCommunication, dob, gender, prefLang, altContactNum,
-				altEmail);
+		exploreIndexPage.enterAllDetailsForRegistration(firstName, middleName, lastName, username, password, otp, receiveCommunication, dob, gender,
+				prefLang, altContactNum, altEmail);
 
-		TestData.setCellData("ReadDataFromExcel/MTN_OrderDetails.xlsx", "Registration", username, 1, 1);
-		TestData.setCellData("ReadDataFromExcel/MTN_OrderDetails.xlsx", "Registration", password, 2, 1);
+		TestData.setCellData("data/MTN_OrderDetails.xlsx", "Registration", username, 1, 1);
+		TestData.setCellData("data/MTN_OrderDetails.xlsx", "Registration", password, 2, 1);
 
-		ArrayList<String> planDetails = TestData.getColumnData("ReadDataFromExcel/MTN.xlsx", "Plan", "TC_02");
+		ArrayList<String> planDetails = TestData.getColumnData("data/MTN_Details.xlsx", "Plan", "TC_02");
 		String planType = planDetails.get(0);
 		String plan = planDetails.get(1);
 		String iccID = planDetails.get(3);
@@ -85,39 +85,42 @@ public class SearchIndex extends SeleniumInit{
 
 		commonIndexPage.clickOnCheckout();
 
-		String idValue = "2131321"+Common.generateRandomNumber(4);
+		String idValue = Common.generateRandomChars(5)+Common.generateRandomNumber(6);
 		String issueDate = commonIndexPage.issueDate();
 		String expiryDate = commonIndexPage.expiryDate();
 
-		TestData.setCellData("ReadDataFromExcel/MTN_Random.xlsx","Basic", idValue, 1, 1);
-		TestData.setCellData("ReadDataFromExcel/MTN_Random.xlsx","Basic", issueDate, 2, 1);
-		TestData.setCellData("ReadDataFromExcel/MTN_Random.xlsx","Basic", expiryDate, 3, 1);
+//		TestData.setCellData("data/MTN_RuntimeDetails.xlsx","Basic", idValue, 1, 1);
+//		TestData.setCellData("data/MTN_RuntimeDetails.xlsx","Basic", issueDate, 2, 1);
+//		TestData.setCellData("data/MTN_RuntimeDetails.xlsx","Basic", expiryDate, 3, 1);
 
 		String squareNum = Common.generateRandomNumber(2);
 		String houseNum = Common.generateRandomNumber(3);
 		String street = Common.generateRandomChars(6);
 		String zipcode = Common.generateRandomNumber(5);
 
-		TestData.setCellData("ReadDataFromExcel/MTN_Random.xlsx","Address", squareNum, 1, 1);
-		TestData.setCellData("ReadDataFromExcel/MTN_Random.xlsx","Address", houseNum, 2, 1);
-		TestData.setCellData("ReadDataFromExcel/MTN_Random.xlsx","Address", street, 3, 1);
-		TestData.setCellData("ReadDataFromExcel/MTN_Random.xlsx","Address", zipcode, 4, 1);
+//		TestData.setCellData("data/MTN_RuntimeDetails.xlsx","Address", squareNum, 1, 1);
+//		TestData.setCellData("data/MTN_RuntimeDetails.xlsx","Address", houseNum, 2, 1);
+//		TestData.setCellData("data/MTN_RuntimeDetails.xlsx","Address", street, 3, 1);
+//		TestData.setCellData("data/MTN_RuntimeDetails.xlsx","Address", zipcode, 4, 1);
 
 		String contactName = Common.generateRandomChars(10);
 
-		TestData.setCellData("ReadDataFromExcel/MTN_Random.xlsx","Contact", contactName, 1, 1);
-		TestData.setCellData("ReadDataFromExcel/MTN_Random.xlsx","Contact", altContactNum, 2, 1);
+//		TestData.setCellData("data/MTN_RuntimeDetails.xlsx","Contact", contactName, 1, 1);
+//		TestData.setCellData("data/MTN_RuntimeDetails.xlsx","Contact", altContactNum, 2, 1);
 
-		if(planType.equalsIgnoreCase("postpaid")) {
+//		if(planType.equalsIgnoreCase("postpaid")) {
 			String billingContactNumber = altContactNum;
-			TestData.setCellData("ReadDataFromExcel/MTN_Random.xlsx","BillingAccount", billingContactNumber, 1, 1);
-		}
+//			TestData.setCellData("data/MTN_RuntimeDetails.xlsx","BillingAccount", billingContactNumber, 1, 1);
+//		}
 
-		commonIndexPage.secureCheckoutDetails(planType);
+//		commonIndexPage.secureCheckoutDetails(planType);
+
+		String totalAmount = commonIndexPage.secureCheckoutDetails(planType, idValue, issueDate, expiryDate, squareNum, houseNum, street, zipcode, contactName,
+				billingContactNumber);
 
 		String orderNumber = commonIndexPage.getOrderNumber();
 		String paymentID = commonIndexPage.getPaymentID();
-		String totalAmount = TestData.getColumnData("ReadDataFromExcel/MTN_Random.xlsx", "Payment", "TestData").get(0);
+//		String totalAmount = TestData.getColumnData("data/MTN_RuntimeDetails.xlsx", "Payment", "TestData").get(0);
 
 		log("Verifying order placed successfully.");
 		if (commonVerification.verifyOrderPlaced()) {
@@ -127,10 +130,10 @@ public class SearchIndex extends SeleniumInit{
 			numOfFailure++;
 		}
 
-		TestData.setCellData("ReadDataFromExcel/MTN_OrderDetails.xlsx", "OrderDetails", username, 1, 1);
-		TestData.setCellData("ReadDataFromExcel/MTN_OrderDetails.xlsx", "OrderDetails", orderNumber, 2, 1);
-		TestData.setCellData("ReadDataFromExcel/MTN_OrderDetails.xlsx", "OrderDetails", paymentID, 3, 1);
-		TestData.setCellData("ReadDataFromExcel/MTN_OrderDetails.xlsx", "OrderDetails", totalAmount, 4, 1);
+		TestData.setCellData("data/MTN_OrderDetails.xlsx", "OrderDetails", username, 1, 1);
+		TestData.setCellData("data/MTN_OrderDetails.xlsx", "OrderDetails", orderNumber, 2, 1);
+		TestData.setCellData("data/MTN_OrderDetails.xlsx", "OrderDetails", paymentID, 3, 1);
+		TestData.setCellData("data/MTN_OrderDetails.xlsx", "OrderDetails", totalAmount, 4, 1);
 
 		if (numOfFailure > 0) {
 			Assert.assertTrue(false);

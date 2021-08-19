@@ -16,7 +16,7 @@ public class AccountIndex extends SeleniumInit {
 
 		exploreIndexPage.clickOnLogin();
 /*
-		ArrayList<String> loginDetails = TestData.getColumnData("ReadDataFromExcel/MTN.xlsx", "Login", "TC_01");
+		ArrayList<String> loginDetails = TestData.getColumnData("data/MTN_Details.xlsx", "Login", "TC_01");
 		String username = loginDetails.get(0);
 		String password = loginDetails.get(1);
 
@@ -30,7 +30,7 @@ public class AccountIndex extends SeleniumInit {
 
 		exploreVerification.verifyNameOnHeader("Hi");
 /*
-		ArrayList<String> planDetails = TestData.getColumnData("ReadDataFromExcel/MTN.xlsx", "Plan", "TC_02");
+		ArrayList<String> planDetails = TestData.getColumnData("data/MTN_Details.xlsx", "Plan", "TC_02");
 		String planType = planDetails.get(0);
 		String plan = planDetails.get(1);
 		String iccID = planDetails.get(3);

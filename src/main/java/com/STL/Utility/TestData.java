@@ -72,6 +72,13 @@ public class TestData {
 		return fullpath;
 	}
 
+	public static String readExcelData(String filename) {
+		String dataFilePath = "data/" + filename ;
+		File datafile = new File(dataFilePath);
+		String fullpath = datafile.getAbsolutePath();
+		return fullpath;
+	}
+
 	public static String downloadFilePath(String filename) {
 		String dataFilePath = "DownloadData/" + filename;
 		File datafile = new File(dataFilePath);

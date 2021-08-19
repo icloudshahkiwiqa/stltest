@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.openqa.selenium.By;
@@ -33,27 +34,27 @@ public class CommonIndexPage extends AbstractPage {
 	WebElement viewMoreBtn;
 
 	public CommonIndexPage openPlan(String plan) throws IOException {
-		log("Select a plan to buy.");
-		List<String> planName = new ArrayList<String>();
-		Common.pause(2);
-		do {
-			List<WebElement> plans = driver.findElements(By.xpath("//div[contains(@class,'Plan')]//h4"));
-			for(WebElement e : plans){
-				planName.add(e.getText());
-			}
-			if(!planName.contains(plan)) {
-				try {
-					if(viewMoreBtn.isDisplayed()) {
-						Common.clickOn(driver, viewMoreBtn);
-						Common.pause(2);
-					} else {
-						break;
-					}
-				} catch(Exception e) {
-					break;
-				}
-			}
-		} while(!planName.contains(plan));
+//		if(driver.findElements(By.xpath("//h4[text()='"+plan+"']/following-sibling::a")).size()<=0) {
+//			List<String> planName = new ArrayList<String>();
+//			Common.pause(5);
+//			do {
+//				List<WebElement> plans = driver.findElements(By.xpath("//div[contains(@class,'Plan')]//h4"));
+//				for(WebElement e : plans){
+//					planName.add(e.getText());
+//				}
+//				if (/* !planName.contains(plan) && */ driver.findElements(By.xpath("//button[contains(@class,'Plan')]")).size()>0) {
+//					Common.clickOn(driver, viewMoreBtn);
+//					Common.pause(2);
+//				}
+//			} while(/*!planName.contains(plan)*/driver.findElements(By.xpath("//h4[text()='"+plan+"']/following-sibling::a")).size()<=0);
+//		}
+		while(driver.findElements(By.xpath("//h4[text()='"+plan+"']/following-sibling::a")).size()<=0) {
+			if (driver.findElements(By.xpath("//button[contains(@class,'Plan')]")).size()>0)
+				Common.clickOn(driver, viewMoreBtn);
+			else
+				slog("No more plans to display.");
+				break;
+		}
 
 		String selectPlan = "//h4[text()='"+plan+"']/following-sibling::a";
 		Common.scrollToMiddle(driver, driver.findElement(By.xpath("//h4[text()='"+plan+"']")));
@@ -70,12 +71,11 @@ public class CommonIndexPage extends AbstractPage {
 	WebElement buyNowBtn;
 
 	public CommonIndexPage buyPlan() throws IOException {
-		log("Click on Buy Now button.");
-//		Common.scrollToMiddle(driver, buyNowBtn);
 		Common.clickableElement(buyNowBtn, driver);
 		Common.scrollToMiddle(driver, buyNowBtn);
 		Common.captureScreenshot(driver);
 		Common.clickOn(driver, buyNowBtn);
+		log("Clicked on Buy Now button.");
 
 		return new CommonIndexPage(driver);
 	}
@@ -95,12 +95,12 @@ public class CommonIndexPage extends AbstractPage {
 	public CommonIndexPage clickOnValidateBtn() {
 		Common.clickableElement(validateSimNumBtn, driver);
 		Common.clickOn(driver, validateSimNumBtn);
+		log("Clicked on Validate button.");
 
 		return new CommonIndexPage(driver);
 	}
 
 	public CommonIndexPage enterSimAndValidate(String simNum) {
-		log("Enter SIM Number and click on Validate.");
 		enterSimNumber(simNum);
 		clickOnValidateBtn();
 
@@ -111,9 +111,9 @@ public class CommonIndexPage extends AbstractPage {
 	WebElement proceedBtn;
 
 	public CommonIndexPage clickOnProceed() {
-		log("Click on 'Proceed' button.");
 		Common.clickableElement(proceedBtn, driver);
 		Common.clickOn(driver, proceedBtn);
+		log("Clicked on Proceed button.");
 
 		return new CommonIndexPage(driver);
 	}
@@ -122,10 +122,10 @@ public class CommonIndexPage extends AbstractPage {
 	WebElement checkoutBtn;
 
 	public CommonIndexPage clickOnCheckout() {
-		log("Click on 'Checkout' button.");
 		Common.clickableElement(checkoutBtn, driver);
 		Common.captureScreenshot(driver);
 		Common.clickOn(driver, checkoutBtn);
+		log("Clicked on Checkout button.");
 
 		return new CommonIndexPage(driver);
 	}
@@ -152,29 +152,26 @@ public class CommonIndexPage extends AbstractPage {
 		return getDate(2023, 1, 2, 2026, 1, 1);
 	}
 
+	public void selectBasicDetailItem(String item, String itemLbl ) throws IOException {
+		WebElement itemDrpdwn = driver.findElement(By.xpath("//div[@id='accordion__panel-customerRegistration']//div[contains(@id,'accordion__panel-basicInfo')]//label[contains(text(),'"+itemLbl+"')]/..//input/../following-sibling::span"));
+		Common.scrollToMiddle(driver, itemDrpdwn);
+		Common.clickableElement(itemDrpdwn, driver);
+		Common.clickOn(driver, itemDrpdwn);
+
+		WebElement itemName = driver.findElement(By.xpath("//div[contains(@class,'rc-virtual-list-holder-inner')]//div[contains(@class,'content') and contains(text(),'"+item+"')]"));
+		Common.clickableElement(itemName, driver);
+		Common.clickOn(driver, itemName);
+	}
+
 	public void selectCategory(String category) throws IOException {
 		String customerCategoryLbl = TestData.getValueFromConfig("message.properties", "CustomerCategory");
-		WebElement categoryDrpdwn = driver.findElement(By.xpath("//div[@id='accordion__panel-customerRegistration']//div[contains(@id,'accordion__panel-basicInfo')]//label[contains(text(),'"+customerCategoryLbl+"')]/..//input/../following-sibling::span"));
-		Common.scrollToMiddle(driver, categoryDrpdwn);
-		Common.clickableElement(categoryDrpdwn, driver);
-		Common.clickOn(driver, categoryDrpdwn);
-
-		WebElement categoryName = driver.findElement(By.xpath("//div[contains(@class,'rc-virtual-list-holder-inner')]//div[contains(@class,'content') and contains(text(),'"+category+"')]"));
-		Common.clickableElement(categoryName, driver);
-		Common.clickOn(driver, categoryName);
+		selectBasicDetailItem(category, customerCategoryLbl);
 		log("Selected Consumer Category : "+ category);
 	}
 
 	public void selectIdType(String idType) throws IOException {
 		String personalIdLbl = TestData.getValueFromConfig("message.properties", "IDType");
-		WebElement idTypeDrpdwn = driver.findElement(By.xpath("//div[@id='accordion__panel-customerRegistration']//div[contains(@id,'accordion__panel-basicInfo')]//label[contains(text(),'"+personalIdLbl+"')]/..//input/../following-sibling::span"));
-		Common.clickableElement(idTypeDrpdwn, driver);
-		Common.clickOn(driver, idTypeDrpdwn);
-
-		WebElement idTypeName = driver.findElement(By.xpath("//div[contains(@class,'rc-virtual-list-holder-inner')]//div[contains(@class,'content') and contains(text(),'"+idType+"')]"));
-		Common.scrollToMiddle(driver, idTypeName);
-		Common.clickableElement(idTypeName, driver);
-		Common.clickOn(driver, idTypeName);
+		selectBasicDetailItem(idType, personalIdLbl);
 		log("Selected ID Type : "+ idType);
 	}
 
@@ -220,15 +217,17 @@ public class CommonIndexPage extends AbstractPage {
 		return new CommonIndexPage(driver);
 	}
 
-	public CommonIndexPage fillUpBasicDetails() throws IOException {
-		ArrayList<String> basicMandatoryDetails = TestData.getColumnData("ReadDataFromExcel/MTN.xlsx", "Basic", "TestData");
+	public CommonIndexPage fillUpBasicDetails(String idValue, String issueDate, String expiryDate) throws IOException {
+		Common.captureScreenshot(driver);
+		log("Fill up Basic Details");
+		ArrayList<String> basicMandatoryDetails = TestData.getColumnData("data/MTN_Details.xlsx", "Basic", "TestData");
 		String category = basicMandatoryDetails.get(1);
 		String idType = basicMandatoryDetails.get(2);
 
-		ArrayList<String> basicDetails = TestData.getColumnData("ReadDataFromExcel/MTN_Random.xlsx", "Basic", "TestData");
-		String idValue = basicDetails.get(0);
-		String issueDate = basicDetails.get(1);
-		String expiryDate = basicDetails.get(2);
+//		ArrayList<String> basicDetails = TestData.getColumnData("data/MTN_RuntimeDetails.xlsx", "Basic", "TestData");
+//		String idValue = basicDetails.get(0);
+//		String issueDate = basicDetails.get(1);
+//		String expiryDate = basicDetails.get(2);
 
 		selectCategory(category);
 		selectIdType(idType);
@@ -308,14 +307,17 @@ public class CommonIndexPage extends AbstractPage {
 		return new CommonIndexPage(driver);
 	}
 
-	public CommonIndexPage fillUpAddressDetails() throws IOException {
-		ArrayList<String> addressDetails = TestData.getColumnData("ReadDataFromExcel/MTN_Random.xlsx", "Address", "TestData");
-		String squareNum = addressDetails.get(0);
-		String houseNum = addressDetails.get(1);
-		String street = addressDetails.get(2);
-		String zipcode = addressDetails.get(3);
+	public CommonIndexPage fillUpAddressDetails(String squareNum, String houseNum, String street, String zipcode) throws IOException {
+		log("Fill up Address Details");
+		/*
+		 * ArrayList<String> addressDetails =
+		 * TestData.getColumnData("data/MTN_RuntimeDetails.xlsx", "Address",
+		 * "TestData"); String squareNum = addressDetails.get(0); String houseNum =
+		 * addressDetails.get(1); String street = addressDetails.get(2); String zipcode
+		 * = addressDetails.get(3);
+		 */
 
-		ArrayList<String> addressMandatoryDetails = TestData.getColumnData("ReadDataFromExcel/MTN.xlsx", "Address", "TestData");
+		ArrayList<String> addressMandatoryDetails = TestData.getColumnData("data/MTN_Details.xlsx", "Address", "TestData");
 		String district = addressMandatoryDetails.get(0);
 		String city = addressMandatoryDetails.get(1);
 
@@ -367,12 +369,16 @@ public class CommonIndexPage extends AbstractPage {
 		return new CommonIndexPage(driver);
 	}
 
-	public CommonIndexPage fillUpContactDetails() throws IOException {
-		ArrayList<String> contactDetails = TestData.getColumnData("ReadDataFromExcel/MTN_Random.xlsx", "Contact", "TestData");
-		String contactName = contactDetails.get(0);
-		String phoneNumber = contactDetails.get(1);
+	public CommonIndexPage fillUpContactDetails(String contactName, String phoneNumber) throws IOException {
+		log("Fill up Contact Details");
+		/*
+		 * ArrayList<String> contactDetails =
+		 * TestData.getColumnData("data/MTN_RuntimeDetails.xlsx", "Contact",
+		 * "TestData"); String contactName = contactDetails.get(0); String phoneNumber =
+		 * contactDetails.get(1);
+		 */
 
-		ArrayList<String> contactMandatoryDetails = TestData.getColumnData("ReadDataFromExcel/MTN.xlsx", "Contact", "TestData");
+		ArrayList<String> contactMandatoryDetails = TestData.getColumnData("data/MTN_Details.xlsx", "Contact", "TestData");
 		String receiveCommunication = contactMandatoryDetails.get(0);
 
 		enterContactName(contactName);
@@ -383,32 +389,52 @@ public class CommonIndexPage extends AbstractPage {
 		return new CommonIndexPage(driver);
 	}
 
-	@FindBy(xpath="(//div[contains(@id,'accordion__panel-uploadDocument')]//button)[1]")
+	@FindBy(xpath="//div[contains(@id,'accordion__panel-uploadDocument')]//span/parent::button")
 	WebElement takePhotoBtn;
 
 	public void takePhoto() {
 		Common.clickableElement(takePhotoBtn, driver);
 		Common.jsClick(driver, takePhotoBtn);
-		log("Captured Photo");
+		log("Captured Photo.");
 	}
 
-	@FindBy(xpath="//div[contains(@id,'accordion__panel-uploadDocument')]//input[@name='personalIdFront']")
-	WebElement attachIdFrontImg;
+	@FindBy(xpath="//div[contains(@id,'accordion__panel-uploadDocument')]//span/parent::button/following-sibling::button")
+	WebElement uploadPhotoBtn;
 
-	public void uploadFrontID(String frontId) {
-		File file = new File(frontId);
-		String frontFilePath = file.getAbsolutePath();//Common.filePath(frontId);
-		attachIdFrontImg.sendKeys(frontFilePath);
+	public void uploadPhoto() {
+		Common.clickableElement(uploadPhotoBtn, driver);
+		Common.jsClick(driver, uploadPhotoBtn);
+		log("Photo Uploaded.");
+	}
+
+	public void uploadLivePhoto() {
+		if(driver.findElements(By.xpath("//div[contains(@id,'accordion__panel-uploadDocument')]//span/parent::button")).size()>0) {
+			takePhoto();
+			uploadPhoto();
+		}
+	}
+
+	private void uploadID(String id, String lbl) {
+		File file = new File(id);
+		String filePath = file.getAbsolutePath();
+
+		WebElement attachIdImg = driver.findElement(By.xpath("//div[contains(@id,'accordion__panel-uploadDocument')]//label[text()='"+lbl+"']/following-sibling::div//input[@type='file']"));
+		attachIdImg.sendKeys(filePath);
+
+		WebElement uploadIdBtn = driver.findElement(By.xpath("//div[contains(@id,'accordion__panel-uploadDocument')]//label[text()='"+lbl+"']/following-sibling::div//button"));
+		Common.clickableElement(uploadIdBtn, driver);
+		Common.clickOn(driver, uploadIdBtn);
+	}
+
+	public void uploadFrontID(String frontId) throws IOException {
+		String frontIdLbl = TestData.getValueFromConfig("message.properties", "PersonalIdFront");
+		uploadID(frontId, frontIdLbl);
 		log("Uploaded Front ID.");
 	}
 
-	@FindBy(xpath="//div[contains(@id,'accordion__panel-uploadDocument')]//input[@name='personalIdBack']")
-	WebElement attachIdBackImg;
-
-	private void uploadBackID(String backId) {
-		File file = new File(backId);
-		String backFilePath = file.getAbsolutePath();//Common.filePath(backId);
-		attachIdBackImg.sendKeys(backFilePath);
+	private void uploadBackID(String backId) throws IOException {
+		String backIdLbl = TestData.getValueFromConfig("message.properties", "PersonalIdBack");
+		uploadID(backId, backIdLbl);
 		log("Uploaded Back ID.");
 	}
 
@@ -416,20 +442,22 @@ public class CommonIndexPage extends AbstractPage {
 	WebElement nextBtn;
 
 	public CommonIndexPage clickNextBtn() {
+		Common.pause(20);
+		Common.scrollToMiddle(driver, nextBtn);
 		Common.clickableElement(nextBtn, driver);
-		Common.clickOn(driver, nextBtn);
+		Common.jsClick(driver, nextBtn);
 		log("Clicked on Next button.");
-		Common.pause(3);
 
 		return new CommonIndexPage(driver);
 	}
 
 	public CommonIndexPage uploadDocuments() throws IOException {
-		ArrayList<String> documentDetails = TestData.getColumnData("ReadDataFromExcel/MTN.xlsx", "UploadDocuments", "TestData");
+		log("Upload Documents");
+		ArrayList<String> documentDetails = TestData.getColumnData("data/MTN_Details.xlsx", "UploadDocuments", "TestData");
 		String frontId = documentDetails.get(0);
 		String backId = documentDetails.get(1);
 
-		takePhoto();
+		uploadLivePhoto();
 		uploadFrontID(frontId);
 		uploadBackID(backId);
 		clickNextBtn();
@@ -437,17 +465,79 @@ public class CommonIndexPage extends AbstractPage {
 		return new CommonIndexPage(driver);
 	}
 
+	@FindBy(xpath="//div[@id='accordion__panel-numberSelection']//li[text()='Free']")
+	WebElement freeNumLbl;
+
+	@FindBy(xpath="//div[@id='accordion__panel-numberSelection']//li[contains(text(),'GOLD')]")
+	WebElement goldNumLbl;
+
+	public String setRandomNumber() throws Exception {
+		Common.scrollToMiddle(driver, goldNumLbl);
+		Common.clickOn(driver, goldNumLbl);
+		Common.waitForElement(driver.findElement(By.xpath("//div[@id='accordion__panel-numberSelection']//p/span")), driver);
+		List<WebElement> numbers = driver.findElements(By.xpath("//div[@id='accordion__panel-numberSelection']//p/span"));
+		List<String> numbersList = new ArrayList<String>();
+		for(WebElement e : numbers){
+			numbersList.add(e.getText());
+		}
+		Random rand = new Random();
+	    String randomElement = numbersList.get(rand.nextInt(numbersList.size()));
+
+//	    TestData.setCellData("data/MTN_RuntimeDetails.xlsx", "SelectNumber", randomElement, 1, 0);
+	    return randomElement;
+	}
+
 	@FindBy(xpath="//div[@id='accordion__panel-numberSelection']//div[contains(@class,'number')]/b")
 	WebElement selectedNumber;
+
+	public CommonIndexPage selectNumber(String number) {
+		WebElement searchedNumber = driver.findElement(By.xpath("//div[@id='accordion__panel-numberSelection']//p/span[contains(text(),'"+number+"')]"));
+		Common.waitForElement(searchedNumber, driver);
+		Common.clickOn(driver, searchedNumber);
+		log("Selected Number: "+selectedNumber.getText().split(":")[1].trim());
+
+		return new CommonIndexPage(driver);
+	}
 
 	@FindBy(xpath="(//div[@id='accordion__panel-numberSelection']//button[@type='submit'])[2]")
 	WebElement saveNumberSelectionBtn;
 
-	public CommonIndexPage selectNumber() {
-		log("Selected Number: "+selectedNumber.getText().split(":")[1].trim());
+	public CommonIndexPage clickOnSaveNumberBtn() {
+		Common.scrollToMiddle(driver, saveNumberSelectionBtn);
 		Common.waitForElement(saveNumberSelectionBtn, driver);
 		Common.clickOn(driver, saveNumberSelectionBtn);
 		log("Clicked Save button.");
+
+		return new CommonIndexPage(driver);
+	}
+
+	@FindBy(xpath="//div[@id='accordion__panel-numberSelection']//input[@id='search']")
+	WebElement searchNumberBox;
+
+	public void enterNumber(String number) throws IOException {
+		Common.waitForElement(searchNumberBox, driver);
+		Common.type(searchNumberBox, number);
+		log("Searched Number: "+number);
+	}
+
+	@FindBy(xpath="(//div[@id='accordion__panel-numberSelection']//button[@type='submit'])[1]")
+	WebElement searchNumberBtn;
+
+	public CommonIndexPage clickOnSearchNumBtn() {
+		Common.clickableElement(searchNumberBtn, driver);
+		Common.clickOn(driver, searchNumberBtn);
+
+		return new CommonIndexPage(driver);
+	}
+
+	public CommonIndexPage searchAndSelectNumber() throws Exception {
+		log("Select Number");
+		String number = setRandomNumber();
+//		String number = TestData.getColumnData("data/MTN_RuntimeDetails.xlsx", "SelectNumber", "TestData").get(0);
+		enterNumber(number);
+		clickOnSearchNumBtn();
+		selectNumber(number);
+		clickOnSaveNumberBtn();
 
 		return new CommonIndexPage(driver);
 	}
@@ -472,8 +562,9 @@ public class CommonIndexPage extends AbstractPage {
 		return new CommonIndexPage(driver);
 	}
 
-	public CommonIndexPage enterBillingDetails() throws IOException {
-		String billingContactNumber = TestData.getColumnData("ReadDataFromExcel/MTN_Random.xlsx", "BillingAccount", "TestData").get(0);
+	public CommonIndexPage enterBillingDetails(String billingContactNumber) throws IOException {
+		log("Enter Billing Details");
+//		String billingContactNumber = TestData.getColumnData("data/MTN_RuntimeDetails.xlsx", "BillingAccount", "TestData").get(0);
 
 		enterBillingContactNumber(billingContactNumber);
 		clickOnSaveBillingDetailsBtn();
@@ -504,7 +595,8 @@ public class CommonIndexPage extends AbstractPage {
 	}
 
 	public CommonIndexPage acceptTermsAndConditions() throws IOException {
-		String acceptTnC = TestData.getColumnData("ReadDataFromExcel/MTN.xlsx", "TnC", "TestData").get(0);
+		log("Accept Terms & Conditions");
+		String acceptTnC = TestData.getColumnData("data/MTN_Details.xlsx", "TnC", "TestData").get(0);
 
 		checkTnC(acceptTnC);
 		saveTnC();
@@ -521,9 +613,10 @@ public class CommonIndexPage extends AbstractPage {
 	@FindBy(xpath="//div[@id='accordion__panel-orderSummery']//button")
 	WebElement NextOrderSummaryBtn;
 
-	public CommonIndexPage reviewOrderSummary() throws Exception {
+	public String reviewOrderSummary() throws Exception {
+		log("Review Order Summary");
 		String total = totalAmount.getText();
-		TestData.setCellData("ReadDataFromExcel/MTN_Random.xlsx","Payment", total, 1, 1);
+//		TestData.setCellData("data/MTN_RuntimeDetails.xlsx","Payment", total, 1, 1);
 		log("Total Amount: "+total);
 
 		Common.scrollToMiddle(driver, NextOrderSummaryBtn);
@@ -531,38 +624,71 @@ public class CommonIndexPage extends AbstractPage {
 		Common.clickOn(driver, NextOrderSummaryBtn);
 		log("Clicked on Next button.");
 
+		return total;
+	}
+
+	public void doPayment() throws Exception {
+		String paymentMethod = TestData.getColumnData("data/MTN_Details.xlsx", "PaymentMethod", "TestData").get(0);
+		WebElement paymentMethodBtn = driver.findElement(By.xpath("//div[@id='accordion__panel-payment&PlaceOrder']//label[text()='"+paymentMethod+"']"));
+		Common.scrollToMiddle(driver, paymentMethodBtn);
+		Common.clickableElement(paymentMethodBtn, driver);
+		Common.clickOn(driver, paymentMethodBtn);
+		log("Selected Payment Method: "+paymentMethod);
+	}
+
+	@FindBy(xpath="//div[@id='accordion__panel-payment&PlaceOrder']//button[@type='submit']")
+	WebElement payBtn;
+
+	public CommonIndexPage clickOnPayBtn() {
+		Common.clickableElement(payBtn, driver);
+		Common.clickOn(driver, payBtn);
+		log("Clicked Pay button.");
+
 		return new CommonIndexPage(driver);
 	}
 
-	public CommonIndexPage secureCheckoutDetails(String planType) throws Exception {
-		Common.captureScreenshot(driver);
-		log("Fill up Basic Details");
-		fillUpBasicDetails();
+	@FindBy(xpath="//button[text()='Success Order']")
+	WebElement successOrderBtn;
 
-		log("Fill up Address Details");
-		fillUpAddressDetails();
-
-		log("Fill up Contact Details");
-		fillUpContactDetails();
-
-		log("Upload Documents");
-		uploadDocuments();
-
-		log("Select Number");
-		selectNumber();
-
-		if(planType.equalsIgnoreCase("postpaid")) {
-			log("Enter Billing Details");
-			enterBillingDetails();
-		}
-
-		log("Accept Terms & Conditions");
-		acceptTermsAndConditions();
-
-		log("Review Order Summary");
-		reviewOrderSummary();
+	public CommonIndexPage successOrder() throws Exception {
+		Common.scrollToMiddle(driver, successOrderBtn);
+		Common.clickableElement(successOrderBtn, driver);
+		Common.clickOn(driver, successOrderBtn);
+		log("Clicked on Success Order button.");
 
 		return new CommonIndexPage(driver);
+	}
+
+	public CommonIndexPage paymentAndPlaceOrder() throws Exception {
+		log("Payment & Place Order");
+		doPayment();
+		clickOnPayBtn();
+		successOrder();
+
+		return new CommonIndexPage(driver);
+	}
+
+	public String secureCheckoutDetailsForLoggedInUser(String planType, String billingContactNumber) throws Exception {
+		uploadDocuments();
+		searchAndSelectNumber();
+		if(planType.equalsIgnoreCase("postpaid")) {
+			enterBillingDetails(billingContactNumber);
+		}
+		acceptTermsAndConditions();
+		String orderTotal = reviewOrderSummary();
+		paymentAndPlaceOrder();
+
+		return orderTotal;
+	}
+
+	public String secureCheckoutDetails(String planType, String idValue, String issueDate, String expiryDate, String squareNum, String houseNum, 
+			String street, String zipcode, String contactName, String billingContactNumber) throws Exception {
+		fillUpBasicDetails(idValue, issueDate, expiryDate);
+		fillUpAddressDetails(squareNum, houseNum, street, zipcode);
+		fillUpContactDetails(contactName, billingContactNumber);
+		String orderTotal = secureCheckoutDetailsForLoggedInUser(planType, billingContactNumber);
+
+		return orderTotal;
 	}
 
 	@FindBy(xpath="//p[contains(@class,'orderNumber')]/a")

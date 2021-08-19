@@ -12,7 +12,7 @@
 	<listener class-name="com.STL.Reports.ExtentReportListener" />
 </listeners>
 
-<!-- 	<test name="Sprint1_TC-01 :: Order a plan from the Plan list">
+	<test name="Sprint1_TC-01 :: Order a plan from the Plan list">
 		<classes>
 			<class name="com.MTN.Explore.ExploreIndex">
 				<methods>
@@ -21,9 +21,9 @@
 				</methods>
 			</class>
 		</classes>
-	</test> -->
+	</test>
 
-	<test name="Sprint1_TC-02 :: Order a plan from the Search result">
+<!-- 	<test name="Sprint1_TC-02 :: Order a plan from the Search result">
 		<classes>
 			<class name="com.MTN.Search.SearchIndex">
 				<methods>
@@ -34,7 +34,7 @@
 		</classes>
 	</test>
 
-<!-- 	<test name="Sprint1_TC-03 :: Order a plan from Category > Sub Category">
+	<test name="Sprint1_TC-03 :: Order a plan from Category > Sub Category">
 		<classes>
 			<class name="com.MTN.Category.CategoryIndex">
 				<methods>

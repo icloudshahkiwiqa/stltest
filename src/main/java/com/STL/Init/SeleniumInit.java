@@ -105,7 +105,7 @@ public class SeleniumInit{
     public void fetchSuite(ITestContext testContext) throws IOException {
     	try {
     		TestData.deletePastScreenshots(System.getProperty("user.dir") +"\\test-output\\screenshots");
-    		TestData.deleteDirectory(new File(System.getProperty("user.dir") +"\\images"));
+//    		TestData.deleteDirectory(new File(System.getProperty("user.dir") +"\\images"));
     	} catch(Exception e){
     	}
 
@@ -124,7 +124,7 @@ public class SeleniumInit{
     	//seleniumHub = testContext.getCurrentXmlTest().getParameter("selenium.host");
     	//seleniumHubPort = testContext.getCurrentXmlTest().getParameter("selenium.port");
     	//testUrl=TestData.getValueFromConfig("config.properties","URL");
-    	testUrl =TestData.getCellValue("ReadDataFromExcel/MTN.xlsx", "URL", 1, 0);
+    	testUrl =TestData.getCellValue("data/MTN_Details.xlsx", "URL", 1, 0);
     	targetBrowser =TestData.getValueFromConfig("config.properties","Browser");
     	browserVersion = TestData.getValueFromConfig("config.properties", "version");
 
@@ -433,7 +433,7 @@ public class SeleniumInit{
 	public void checkAndChangeDefaultLanguage(WebDriver driver) throws IOException {
 		WebElement languageDrpdwn = driver.findElement(By.xpath("//a[@id='navbarScrollingDropdown']/img/.."));
 		Common.clickableElement(languageDrpdwn, driver);
-		String languageToExecute= TestData.getCellValue("ReadDataFromExcel/MTN.xlsx", "URL", 1, 1);
+		String languageToExecute= TestData.getCellValue("data/MTN_Details.xlsx", "URL", 1, 1);
 		String defLanguage = languageDrpdwn.getText();
 		System.out.println("Language shown is "+defLanguage);
 		File source = null;

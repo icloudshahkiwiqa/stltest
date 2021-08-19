@@ -12,7 +12,7 @@
 	<listener class-name="com.STL.Reports.ExtentReportListener" />
 </listeners>
 
-<!-- 	<test name="Sprint2_TC-01 :: Order a plan from Filtered List with chargeable number">
+	<test name="Sprint2_TC-01 :: Order a plan from Filtered List with chargeable number">
 		<classes>
 			<class name="com.MTN.Login.LoginIndex">
 				<methods>
@@ -21,9 +21,9 @@
 				</methods>
 			</class>
 		</classes>
-	</test> -->
+	</test>
 
-	<test name="Sprint2_TC-04 :: account">
+<!-- 	<test name="Sprint2_TC-04 :: account">
 		<classes>
 			<class name="com.MTN.Account.AccountIndex">
 				<methods>
@@ -32,5 +32,5 @@
 				</methods>
 			</class>
 		</classes>
-	</test>
+	</test> -->
 </suite>
