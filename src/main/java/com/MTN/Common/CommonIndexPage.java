@@ -34,20 +34,6 @@ public class CommonIndexPage extends AbstractPage {
 	WebElement viewMoreBtn;
 
 	public CommonIndexPage openPlan(String plan) throws IOException {
-//		if(driver.findElements(By.xpath("//h4[text()='"+plan+"']/following-sibling::a")).size()<=0) {
-//			List<String> planName = new ArrayList<String>();
-//			Common.pause(5);
-//			do {
-//				List<WebElement> plans = driver.findElements(By.xpath("//div[contains(@class,'Plan')]//h4"));
-//				for(WebElement e : plans){
-//					planName.add(e.getText());
-//				}
-//				if (/* !planName.contains(plan) && */ driver.findElements(By.xpath("//button[contains(@class,'Plan')]")).size()>0) {
-//					Common.clickOn(driver, viewMoreBtn);
-//					Common.pause(2);
-//				}
-//			} while(/*!planName.contains(plan)*/driver.findElements(By.xpath("//h4[text()='"+plan+"']/following-sibling::a")).size()<=0);
-//		}
 		while(driver.findElements(By.xpath("//h4[text()='"+plan+"']/following-sibling::a")).size()<=0) {
 			if (driver.findElements(By.xpath("//button[contains(@class,'Plan')]")).size()>0)
 				Common.clickOn(driver, viewMoreBtn);
